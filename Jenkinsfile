@@ -70,7 +70,7 @@ pipeline {
                     sh '''
                         ssh -o StrictHostKeyChecking=no \
                             -i "$SSH_KEY" \
-                            "$SSH_USER@YOUR_PRODUCTION_IP" \
+                            "$SSH_USER@100.53.6.153" \
                             "sudo docker pull ${DOCKER_IMAGE}:latest && \
                              sudo docker stop ${CONTAINER_NAME} || true && \
                              sudo docker rm ${CONTAINER_NAME} || true && \
