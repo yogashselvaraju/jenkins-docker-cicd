@@ -1,10 +1,515 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DevOps CI/CD Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi Gayu!!!!! ✨</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Sacramento&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas-Confetti for celebrations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Tone.js for Web Audio API audio effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <style>
+        /* Custom Animations & Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-sacramento {
+            font-family: 'Sacramento', cursive;
+        }
+
+        .font-caveat {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Animated Mesh Gradient Background */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb, #a6c1ee);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 20px 50px rgba(220, 120, 160, 0.25),
+                        0 0 30px rgba(255, 182, 193, 0.4),
+                        inset 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Text Shimmer Effect */
+        .shimmer-text {
+            background: linear-gradient(
+                90deg, 
+                #e83e8c 0%, 
+                #ff65a3 25%, 
+                #7b2cbf 50%, 
+                #ff65a3 75%, 
+                #e83e8c 100%
+            );
+            background-size: 200% auto;
+            color: #000;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1.5deg); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Pulse Soft Glow */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 25px rgba(255, 105, 180, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.8); }
+            50% { box-shadow: 0 0 45px rgba(255, 105, 180, 0.7), inset 0 0 25px rgba(255, 255, 255, 1); }
+        }
+
+        .glow-card {
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        /* Flower / Star Canvas overlay */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Interactive floating items from clicks */
+        .click-heart {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUpAndFade 1.2s ease-out forwards;
+            z-index: 50;
+        }
+
+        @keyframes floatUpAndFade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -120px) scale(1.4) rotate(25deg);
+            }
+        }
+
+        /* Floating Botanical Corner Decorations */
+        .floral-corner {
+            filter: drop-shadow(0 8px 12px rgba(255, 105, 180, 0.3));
+            transition: transform 0.5s ease;
+        }
+        .floral-corner:hover {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        /* Sparkle pulse */
+        @keyframes sparkleAnim {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .sparkle-icon {
+            animation: sparkleAnim 2s infinite ease-in-out;
+        }
+    </style>
 </head>
-<body>
-    <h1>Hello from Jenkins + Docker + AWS EC2!</h1>
-    <p>Version: 1.0</p>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4 md:p-8 relative">
+
+    <!-- Canvas background for magical dust, stars & flowers -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Top Corner Controls (Audio Toggle & Theme Sparkles) -->
+    <div class="fixed top-5 right-5 z-40 flex items-center space-x-3">
+        <button id="audioBtn" class="bg-white/70 hover:bg-white text-pink-600 p-3 rounded-full shadow-lg backdrop-blur-md transition-all transform hover:scale-110 flex items-center justify-center w-12 h-12 border border-pink-200 focus:outline-none" title="Toggle Musical Chimes">
+            <i id="audioIcon" class="fas fa-music text-lg"></i>
+        </button>
+        <button id="sparkleBtn" class="bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110 flex items-center justify-center w-12 h-12 border border-white/50 focus:outline-none" title="Surprise Magic!">
+            <i class="fas fa-magic text-lg"></i>
+        </button>
+    </div>
+
+    <!-- Main Card Container -->
+    <main class="relative z-20 max-w-2xl w-full">
+        <!-- Floating Botanical Frame Elements -->
+        <div class="absolute -top-10 -left-10 text-pink-400 opacity-80 floral-corner hidden sm:block pointer-events-none">
+            <svg width="120" height="120" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M10,50 Q30,20 50,10 Q40,35 10,50 Z" fill="#f472b6" />
+                <path d="M50,10 Q70,20 90,50 Q60,35 50,10 Z" fill="#fb7185" />
+                <circle cx="50" cy="15" r="6" fill="#fef08a" />
+                <path d="M20,60 Q40,70 10,90 Q15,65 20,60 Z" fill="#34d399" />
+            </svg>
+        </div>
+
+        <div class="absolute -bottom-10 -right-10 text-pink-400 opacity-80 floral-corner hidden sm:block pointer-events-none">
+            <svg width="120" height="120" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M90,50 Q70,80 50,90 Q60,65 90,50 Z" fill="#f472b6" />
+                <path d="M50,90 Q30,80 10,50 Q40,65 50,90 Z" fill="#fb7185" />
+                <circle cx="50" cy="85" r="6" fill="#fef08a" />
+                <path d="M80,40 Q60,30 90,10 Q85,35 80,40 Z" fill="#34d399" />
+            </svg>
+        </div>
+
+        <!-- Glassmorphism Card -->
+        <div class="glass-card glow-card rounded-3xl p-8 sm:p-12 md:p-14 text-center animate-float relative overflow-hidden transition-all duration-500">
+            
+            <!-- Soft Decorative Ring Inside Card -->
+            <div class="absolute inset-2 border border-white/40 rounded-2xl pointer-events-none"></div>
+
+            <!-- Top Pill Tag -->
+            <div class="inline-flex items-center space-x-2 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-pink-600 shadow-sm border border-pink-100/50 mb-6">
+                <i class="fas fa-sparkles sparkle-icon text-pink-400"></i>
+                <span class="tracking-widest uppercase">A Special Greeting For You</span>
+                <i class="fas fa-sparkles sparkle-icon text-pink-400"></i>
+            </div>
+
+            <!-- Main Heading "hi gayu!!!!!" -->
+            <div class="relative py-2 my-2">
+                <!-- Glowing Backdrop Effect for Title -->
+                <div class="absolute inset-0 filter blur-2xl opacity-40 bg-pink-300 rounded-full -z-10"></div>
+                
+                <h1 class="font-playfair text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight shimmer-text drop-shadow-sm select-none transition-transform duration-300 hover:scale-105 cursor-pointer" id="mainTitle">
+                    hi gayu!!!!!
+                </h1>
+            </div>
+
+            <!-- Subheading / Message -->
+            <p class="font-caveat text-2xl sm:text-3xl text-gray-700 mt-4 mb-8 leading-relaxed">
+                Wishing you a day filled with infinite joy, bright smiles, and magic ✨🌸
+            </p>
+
+            <!-- Decorative Floating Icons / SVG Flowers inside Card -->
+            <div class="flex justify-center items-center space-x-6 sm:space-x-8 text-pink-500 my-6">
+                <div class="p-3 bg-white/50 rounded-2xl shadow-sm hover:scale-125 hover:rotate-12 transition-all duration-300 cursor-pointer icon-btn" data-note="C5">
+                    <i class="fas fa-heart text-2xl sm:text-3xl text-pink-500"></i>
+                </div>
+                <div class="p-3 bg-white/50 rounded-2xl shadow-sm hover:scale-125 hover:-rotate-12 transition-all duration-300 cursor-pointer icon-btn" data-note="E5">
+                    <i class="fas fa-flower text-2xl sm:text-3xl text-rose-400"></i>
+                </div>
+                <div class="p-3 bg-white/50 rounded-2xl shadow-sm hover:scale-125 hover:rotate-12 transition-all duration-300 cursor-pointer icon-btn" data-note="G5">
+                    <i class="fas fa-star text-2xl sm:text-3xl text-amber-400"></i>
+                </div>
+                <div class="p-3 bg-white/50 rounded-2xl shadow-sm hover:scale-125 hover:-rotate-12 transition-all duration-300 cursor-pointer icon-btn" data-note="B5">
+                    <i class="fas fa-butterfly text-2xl sm:text-3xl text-purple-400"></i>
+                </div>
+            </div>
+
+            <!-- Interactive Action Button -->
+            <div class="mt-8">
+                <button id="surpriseBtn" class="group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white transition-all duration-300 bg-gradient-to-r from-pink-500 via-rose-400 to-purple-500 rounded-full shadow-lg hover:shadow-pink-300/60 hover:scale-105 focus:outline-none overflow-hidden">
+                    <span class="absolute inset-0 w-full h-full bg-white/20 group-hover:bg-transparent transition-all"></span>
+                    <span class="relative flex items-center space-x-2">
+                        <span>Send Warm Vibes</span>
+                        <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Footer Quote -->
+            <p class="font-sacramento text-xl sm:text-2xl text-gray-500 mt-8">
+                ~ Crafted with extra sweetness ~
+            </p>
+        </div>
+    </main>
+
+    <!-- Custom Floating Hearts Container -->
+    <div id="heartContainer" class="fixed inset-0 pointer-events-none z-30"></div>
+
+    <script>
+        // ==========================================
+        // 1. Audio Setup using Tone.js (Web Audio)
+        // ==========================================
+        let synth = null;
+        let soundEnabled = false;
+
+        function initAudio() {
+            if (!synth) {
+                synth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: 'sine' },
+                    envelope: {
+                        attack: 0.02,
+                        decay: 0.1,
+                        sustain: 0.3,
+                        release: 1
+                    }
+                }).toDestination();
+                synth.volume.value = -12; // Gentle sound level
+            }
+        }
+
+        function playChimeNote(note = 'C5') {
+            if (soundEnabled && synth) {
+                try {
+                    Tone.start();
+                    synth.triggerAttackRelease(note, '8n');
+                } catch(e) { console.log(e); }
+            }
+        }
+
+        const audioBtn = document.getElementById('audioBtn');
+        const audioIcon = document.getElementById('audioIcon');
+
+        audioBtn.addEventListener('click', () => {
+            initAudio();
+            soundEnabled = !soundEnabled;
+            if (soundEnabled) {
+                audioIcon.className = 'fas fa-volume-up text-lg text-pink-600';
+                audioBtn.classList.add('ring-2', 'ring-pink-400');
+                playChimeNote('G5');
+            } else {
+                audioIcon.className = 'fas fa-music text-lg';
+                audioBtn.classList.remove('ring-2', 'ring-pink-400');
+            }
+        });
+
+        // ==========================================
+        // 2. Canvas Floating Particles (Stars, Flowers, Orbs)
+        // ==========================================
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height + height;
+                this.size = Math.random() * 12 + 6;
+                this.speedY = Math.random() * 1.2 + 0.4;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                // Types: 0: Soft Circle, 1: Star, 2: Petal
+                this.type = Math.floor(Math.random() * 3);
+                this.color = [
+                    'rgba(255, 182, 193, ',
+                    'rgba(255, 105, 180, ',
+                    'rgba(230, 230, 250, ',
+                    'rgba(255, 218, 185, ',
+                    'rgba(192, 132, 252, '
+                ][Math.floor(Math.random() * 5)];
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.y * 0.01) * 0.5 + this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y < -30) {
+                    this.reset();
+                    this.y = height + 20;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.fillStyle = this.color + this.opacity + ')';
+
+                if (this.type === 0) {
+                    // Soft Glowing Orb
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === 1) {
+                    // Star
+                    ctx.beginPath();
+                    for (let i = 0; i < 5; i++) {
+                        ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * this.size,
+                                   -Math.sin((18 + i * 72) * Math.PI / 180) * this.size);
+                        ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (this.size / 2),
+                                   -Math.sin((54 + i * 72) * Math.PI / 180) * (this.size / 2));
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    // Petal / Heart shape
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.size / 3, this.size / 1.5, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        // Create initial particle pool
+        const particleCount = Math.min(Math.floor(window.innerWidth / 20), 45);
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ==========================================
+        // 3. Interactive Click Floating Hearts Effect
+        // ==========================================
+        const heartIcons = ['💖', '🌸', '✨', '💕', '🌷', '⭐', '🌺'];
+
+        function createFloatingElement(x, y) {
+            const el = document.createElement('div');
+            el.className = 'click-heart text-2xl select-none';
+            el.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            document.body.appendChild(el);
+
+            setTimeout(() => {
+                el.remove();
+            }, 1200);
+        }
+
+        window.addEventListener('click', (e) => {
+            // Ignore button clicks for general click hearts
+            if (e.target.closest('button')) return;
+            
+            createFloatingElement(e.clientX, e.clientY);
+            
+            // Random chime on click if enabled
+            if (soundEnabled) {
+                const notes = ['C5', 'E5', 'G5', 'A5', 'C6'];
+                const randomNote = notes[Math.floor(Math.random() * notes.length)];
+                playChimeNote(randomNote);
+            }
+        });
+
+        // ==========================================
+        // 4. Celebration Confetti & Sparkle Triggers
+        // ==========================================
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ff69b4', '#ffb6c1', '#a78bfa', '#fde047', '#60a5fa']
+                });
+            }
+
+            // Play arpeggio
+            if (soundEnabled && synth) {
+                const now = Tone.now();
+                synth.triggerAttackRelease('C5', '8n', now);
+                synth.triggerAttackRelease('E5', '8n', now + 0.1);
+                synth.triggerAttackRelease('G5', '8n', now + 0.2);
+                synth.triggerAttackRelease('C6', '8n', now + 0.3);
+            }
+        }
+
+        document.getElementById('surpriseBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerConfetti();
+        });
+
+        document.getElementById('sparkleBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerConfetti();
+        });
+
+        // Main Title Hover/Click Effect
+        const mainTitle = document.getElementById('mainTitle');
+        mainTitle.addEventListener('mouseenter', () => {
+            if (soundEnabled) playChimeNote('E5');
+        });
+        mainTitle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerConfetti();
+        });
+
+        // Interactive Icon Buttons sound feedback
+        document.querySelectorAll('.icon-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const note = btn.getAttribute('data-note');
+                initAudio();
+                soundEnabled = true;
+                audioIcon.className = 'fas fa-volume-up text-lg text-pink-600';
+                audioBtn.classList.add('ring-2', 'ring-pink-400');
+                playChimeNote(note);
+
+                // Burst hearts at button coordinates
+                const rect = btn.getBoundingClientRect();
+                for(let i = 0; i < 3; i++) {
+                    setTimeout(() => {
+                        createFloatingElement(rect.left + rect.width/2 + (Math.random()*30 - 15), rect.top);
+                    }, i * 100);
+                }
+            });
+        });
+
+        // Trigger light confetti automatically on initial load
+        window.onload = function() {
+            setTimeout(() => {
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 40,
+                        spread: 60,
+                        origin: { y: 0.7 },
+                        colors: ['#ff9a9e', '#fecfef', '#a1c4fd']
+                    });
+                }
+            }, 600);
+        };
+    </script>
 </body>
 </html>
